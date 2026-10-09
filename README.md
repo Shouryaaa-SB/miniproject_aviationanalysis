@@ -1,182 +1,184 @@
 # Predictive Aviation Analytics & Flight Delay Mitigation Engine
 
-**Project 131 | Team 19 — Team Vortex | B.Tech (CS AIML), GLA University, Mathura**
+**Project 131 | Team 19 — Team Vortex | B.Tech (CS AIML), GLA University, Mathura**  
+**Project phase:** Planning and proposal — as of 9 October 2026
 
-A machine-learning decision-support prototype designed to predict flight delay risk and estimated delay duration using historical flight performance, weather conditions, and airport traffic/congestion features.
+This repository is for an academic project that is currently in its **early planning phase**. The team has a proposed problem statement, objectives, methodology, architecture, and implementation plan. **The final application, trained models, API, and dashboard have not yet been completed.** This README describes the intended work, not finished functionality.
 
-> **Status:** Academic project/prototype. Live data integrations, ONNX optimization, and production deployment are intended extensions unless implemented and tested in this repository.
-
-## Table of Contents
-- [Overview](#overview)
-- [Problem Statement](#problem-statement)
-- [Objectives](#objectives)
-- [Proposed Solution](#proposed-solution)
-- [Key Features](#key-features)
-- [Architecture](#architecture)
-- [Technology Stack](#technology-stack)
-- [Data Sources](#data-sources)
-- [Machine Learning Methodology](#machine-learning-methodology)
-- [API Design](#api-design)
-- [Getting Started](#getting-started)
-- [Suggested Project Structure](#suggested-project-structure)
-- [Evaluation](#evaluation)
-- [Target Users and Use Cases](#target-users-and-use-cases)
-- [Limitations](#limitations)
-- [Future Scope](#future-scope)
-- [Team](#team)
-- [References](#references)
-
-## Overview
+## Project Overview
 
 Flight delays can be caused or worsened by changing weather, airport congestion, and network-wide operational effects. Static schedules alone cannot capture all changing conditions.
 
-This project proposes an aviation analytics engine that combines historical flight records with contextual weather and traffic data to provide:
-1. A probability that a flight will be delayed by **more than 15 minutes**.
-2. An estimated delay duration in minutes.
-3. Visual risk and context summaries in a Streamlit dashboard.
-4. Structured predictions through a FastAPI REST API.
+The planned project will investigate whether historical flight-performance data, weather observations, and airport traffic/congestion features can help predict:
 
-The system is intended to support analysis and planning. It is **not** intended to make autonomous flight-dispatch or safety-critical decisions.
+1. The probability that a flight will be delayed by **more than 15 minutes**.
+2. An estimated delay duration in minutes.
+
+The intended output is a decision-support prototype for aviation operations analysis. It will not make autonomous flight-dispatch or safety-critical decisions.
 
 ## Problem Statement
 
 Static flight schedules frequently fail to account for dynamic meteorological fluctuations and airport congestion bottlenecks. These disruptions can lead to operational inefficiencies for airline carriers and uncertainty for passengers.
 
-The project aims to combine historical flight-performance data with weather telemetry and airport traffic/congestion indicators to identify delay risks before they escalate.
+The project proposes a localized analytics system that combines historical flight records with weather and traffic/congestion information to estimate delay risk before it escalates.
 
-## Objectives
+## Planned Objectives
 
-- Predict the probability of a delay exceeding 15 minutes.
-- Estimate delay duration using a regression model.
-- Engineer temporal, carrier, route, airport, weather, and congestion features.
-- Compare candidate models using classification and regression metrics.
-- Expose predictions through a FastAPI REST service.
-- Present results through an interactive Streamlit dashboard.
-- Explore ONNX Runtime for efficient local CPU inference, targeting sub-50 ms model inference where achievable.
+- Study and prepare a suitable historical flight dataset.
+- Investigate the availability and compatibility of weather and airport traffic data.
+- Clean and align data using airport identifiers and timestamps.
+- Engineer temporal, carrier, route, weather, and congestion-related features.
+- Develop a classification model for delays exceeding 15 minutes.
+- Develop a regression model to estimate delay duration.
+- Evaluate candidate models using ROC-AUC, MAE, and RMSE.
+- Plan a FastAPI service for prediction requests.
+- Plan a Streamlit dashboard for risk and context visualization.
+- Investigate ONNX Runtime as a possible model-inference optimization.
 
-## Proposed Solution
+These are planned objectives; no model performance or completed feature is claimed at this stage.
 
-1. **Collect data:** obtain historical flight records and compatible weather and traffic/congestion data.
-2. **Validate and clean:** inspect missing values, duplicates, timestamps, airport identifiers, and outliers.
-3. **Align data:** join weather and traffic observations to flights using airport and time information.
-4. **Engineer features:** derive time patterns, carrier, route, weather, and rolling traffic features.
-5. **Train models:** train a classifier for the `>15-minute delay` target and a regressor for delay duration.
-6. **Evaluate:** compare a baseline and boosted models using held-out data.
-7. **Serve predictions:** load the selected model behind a FastAPI endpoint.
-8. **Visualize:** use Streamlit to display risk probabilities, estimated duration, and context.
+## Proposed Methodology
 
-## Key Features
+### Phase 1 — Data Research and Preparation
+- Review the historical flight-delay dataset.
+- Identify suitable weather and traffic/congestion data sources.
+- Check data quality, licensing, missing values, duplicates, and timestamp alignment.
+- Decide the exact delay target to predict (departure delay, arrival delay, or another defined measure).
 
-- **Delay-risk classification:** probability of delay exceeding 15 minutes.
-- **Delay-duration regression:** estimated delay duration in minutes.
-- **Weather context:** intended use of visibility, wind speed, and precipitation where data is available.
-- **Congestion context:** airport traffic density and rolling congestion metrics where available.
-- **Feature engineering:** temporal, carrier, airport, and route features.
-- **Interactive dashboard:** risk gauges, trends, and weather/congestion visualizations.
-- **REST API:** structured JSON responses through FastAPI.
-- **Model optimization:** ONNX Runtime is a planned optimization target.
-- **Operational summary:** structured output to support logistics planning.
+### Phase 2 — Exploratory Analysis and Feature Engineering
+- Explore delay patterns by time, carrier, airport, and route.
+- Derive scheduled departure hour, day of week, and other temporal features.
+- Investigate weather variables such as visibility, wind speed, and precipitation.
+- Explore rolling airport traffic/congestion indicators if appropriate data is available.
+- Avoid using information that would not be available at prediction time.
 
-Feature availability depends on the datasets actually acquired and integrated. This README describes the intended design and does not imply every component is already implemented.
+### Phase 3 — Model Development (Planned)
+- Establish a simple baseline.
+- Compare candidate XGBoost and/or LightGBM classification models.
+- Develop a regression model for delay duration.
+- Use appropriate train/validation/test splits, with time-aware validation where feasible.
+- Evaluate using ROC-AUC for classification and MAE/RMSE for regression.
 
-## Architecture
+### Phase 4 — API and Dashboard (Planned)
+- Design a FastAPI REST endpoint for structured predictions.
+- Design a Streamlit dashboard showing predicted risk, estimated delay duration, and relevant context.
+- Test API inputs, output schemas, error handling, and dashboard flows.
+
+### Phase 5 — Optimization and Demonstration (Future)
+- Benchmark local inference latency.
+- Explore ONNX conversion if compatible with the selected model.
+- Document limitations, evaluation results, and possible future improvements.
+
+## Proposed Features
+
+The following are planned features, not claims of completed functionality:
+
+- Delay-risk probability for delays exceeding 15 minutes.
+- Estimated delay duration in minutes.
+- Weather-context analysis, subject to data availability.
+- Airport traffic/congestion indicators, subject to data availability.
+- Temporal, carrier, airport, and route feature engineering.
+- Streamlit risk dashboard and visual summaries.
+- FastAPI prediction endpoint.
+- Structured operational summary.
+- Possible ONNX Runtime optimization after a model is developed.
+
+## Proposed Architecture
 
 ```text
 Historical Flight Records ─┐
-Weather Telemetry ─────────┼──> Data Validation & Cleaning
-Airport Traffic Data ──────┘              |
-                                          v
-                              Time/Airport Data Alignment
-                                          |
-                                          v
-                               Feature Engineering
-                                          |
-                                          v
-                          Classifier + Delay Regressor
-                                          |
-                              Evaluation & Serialization
-                                          |
-                                          v
-                              FastAPI / Uvicorn API
-                                          |
-                                          v
-                                Streamlit Dashboard
-                     Risk Probability • Delay Estimate
-                     Weather Context • Congestion Views
+Weather Data (to be sourced) ┼──> Data Validation and Cleaning
+Airport Traffic Data (TBD) ─┘                |
+                                             v
+                                  Timestamp/Airport Alignment
+                                             |
+                                             v
+                                      Feature Engineering
+                                             |
+                                             v
+                             Classification + Regression Models
+                                             |
+                                             v
+                                  Model Evaluation and Saving
+                                             |
+                                             v
+                              FastAPI Service (planned)
+                                             |
+                                             v
+                            Streamlit Dashboard (planned)
 ```
 
-## Technology Stack
+## Proposed Technology Stack
 
-| Area | Technologies |
+| Area | Planned technology |
 |---|---|
-| Language | Python |
+| Programming language | Python |
 | Data processing | pandas, NumPy |
 | Machine learning | scikit-learn, XGBoost and/or LightGBM |
 | Visualization | Matplotlib, Seaborn, Streamlit |
 | API | FastAPI, Uvicorn |
-| Inference optimization | ONNX Runtime (planned/subject to compatibility) |
-| Data sources | Kaggle flight-delay dataset, U.S. DOT BTS, compatible weather/traffic sources |
+| Model optimization | ONNX Runtime, subject to model compatibility |
 | Testing | pytest and/or Postman |
+| Data sources | Historical flight data, compatible weather and airport traffic sources |
 
-## Data Sources
+The final stack may change after data exploration and implementation decisions.
 
-### Primary historical dataset
-- **2015 Flight Delays and Cancellations — Kaggle / U.S. DOT:** https://www.kaggle.com/usdot/flight-delays/data
+## Planned Data Sources
+
+### Primary dataset under consideration
+- **2015 Flight Delays and Cancellations — Kaggle / U.S. DOT:**  
+  https://www.kaggle.com/usdot/flight-delays/data
 
 ### Aviation statistics
-- **U.S. Bureau of Transportation Statistics — TranStats:** https://transtats.bts.gov/
+- **U.S. Bureau of Transportation Statistics — TranStats:**  
+  https://transtats.bts.gov/
 
-The proposed pipeline also requires compatible hourly weather observations (such as visibility, wind speed, and precipitation) and airport traffic/congestion indicators. These additional sources must be selected, checked for licensing, and aligned to flight timestamps and airport identifiers.
+### Data still to be finalized
+The proposed project needs compatible weather observations (for example, visibility, wind speed, and precipitation) and airport traffic/congestion indicators. Specific datasets or APIs for these additional inputs have **not yet been finalized**.
 
-**Data note:** The primary dataset cited above is historical and U.S.-based. It does not by itself provide current real-time conditions or confirm India-specific coverage. Document any change of dataset or geographic scope in the implementation and final report.
+**Important geographic note:** The cited 2015 Kaggle dataset is U.S.-based and historical. The team must confirm the intended geographic scope and data sources before implementation; this README does not claim that India-specific or live flight data has been secured.
 
-Do not commit large raw datasets, API keys, or private credentials to GitHub. Prefer download instructions or small synthetic samples where appropriate.
+Do not commit API keys, credentials, or large raw datasets to GitHub. Check data usage terms before downloading or redistributing any source.
 
-## Machine Learning Methodology
+## Planned Machine Learning Approach
 
 ### Target variables
-- **Classification:** whether the selected delay measure exceeds 15 minutes.
-- **Regression:** delay duration in minutes.
+- **Classification target:** whether the chosen flight delay measure exceeds 15 minutes.
+- **Regression target:** delay duration in minutes.
 
-The implementation should define whether the target is departure delay, arrival delay, or another delay field and use that definition consistently.
+The team still needs to define the precise delay field and prediction time consistently. Feature selection must avoid target leakage from actual outcomes or future observations.
 
-### Feature engineering
-Potential features include:
+### Candidate features
 - Scheduled departure hour and day of week.
 - Carrier identifier.
-- Origin/destination airport and route identifiers.
-- Weather conditions aligned to the relevant airport and prediction time.
-- Rolling airport traffic/congestion metrics, where available.
-
-Only information available at prediction time should be used. Avoid target leakage from actual outcomes or future observations.
+- Origin/destination airport and route.
+- Weather conditions aligned to airport and time.
+- Airport traffic/congestion metrics, if a suitable source is found.
 
 ### Candidate models
-- Establish a simple baseline.
-- Compare XGBoost and/or LightGBM classifiers for delay-risk probability.
-- Train a regression model to estimate delay duration.
-- Use time-aware validation where appropriate.
-- Save preprocessing with the model so inference uses the same transformations as training.
+- A simple baseline model.
+- XGBoost and/or LightGBM for classification.
+- A regression model for delay-duration estimation.
 
-### Evaluation
-Report measured results rather than assumed performance:
+### Planned evaluation
 - **ROC-AUC** for classification.
-- **MAE** and **RMSE** for delay-duration regression.
-- Precision, recall, confusion matrix, and error analysis as supporting diagnostics.
-- Local inference latency benchmark for the selected model.
+- **MAE** and **RMSE** for regression.
+- Precision, recall, confusion matrix, and error analysis as supporting measures.
+- Local inference latency measurement if a working API/model is produced.
 
-No model scores are included here because they must be calculated from the final trained model and test split.
+No trained model, benchmark, or prediction accuracy is claimed yet. Results will be added after experiments are conducted.
 
-## API Design
+## Planned API Design
 
-The proposed FastAPI service includes:
+The following endpoints are proposed and may change during implementation.
 
-| Endpoint | Method | Purpose |
+| Endpoint | Method | Intended purpose |
 |---|---|---|
-| `/predict` | `POST` | Return delay-risk probability and predicted delay duration |
-| `/health` | `GET` | Report service health and whether the model is loaded |
-| `/metadata` | `GET` | Return model version, feature version, and training metadata |
+| `/predict` | `POST` | Return delay-risk probability and estimated delay duration |
+| `/health` | `GET` | Report service health and whether a model is loaded |
+| `/metadata` | `GET` | Return model and feature metadata |
 
-Illustrative response shape (exact fields depend on the implementation):
+Illustrative response shape only:
 
 ```json
 {
@@ -187,161 +189,100 @@ Illustrative response shape (exact fields depend on the implementation):
 }
 ```
 
-The values above are examples, not real model predictions.
+The values above are placeholders to show a possible response format. They are **not predictions from a trained model**.
 
-## Getting Started
+## Planned Dashboard
 
-The commands below are generic examples. Update module paths and filenames to match the actual repository.
+The proposed Streamlit dashboard may include:
+- Delay-risk probability and risk category.
+- Estimated delay duration.
+- Weather and congestion context, if integrated data supports it.
+- Charts showing delay patterns and trends.
+- A structured summary for operational analysis.
 
-### Prerequisites
-- Python 3.10 or a compatible version supported by the chosen dependencies.
-- Git.
-- Access to the required datasets.
-- Optional: ONNX Runtime if ONNX inference is implemented.
+The dashboard has not yet been completed.
 
-### 1. Clone the repository
+## Early-Phase Work Plan
 
-```bash
-git clone https://github.com/Shouryaaa-SB/miniproject_aviationanalysis.git
-cd miniproject_aviationanalysis
-```
+The current plan is to proceed through these stages:
 
-### 2. Create a virtual environment
+1. Confirm scope, data availability, and the exact prediction target.
+2. Profile and clean the historical flight dataset.
+3. Research and assess compatible weather and traffic/congestion sources.
+4. Perform exploratory data analysis and develop candidate features.
+5. Establish baseline classification and regression models.
+6. Compare models and document evaluation results.
+7. Develop the API and dashboard after the data/model pipeline is stable.
+8. Test, document limitations, and prepare the project demonstration.
 
-**Windows PowerShell**
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-```
+Timeline and task ownership should be updated by the team as work progresses.
 
-**macOS / Linux**
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
+## Suggested Repository Structure
 
-### 3. Install dependencies
-
-If the repository includes `requirements.txt`:
-
-```bash
-pip install -r requirements.txt
-```
-
-Otherwise, a possible starting set is:
-
-```bash
-pip install pandas numpy scikit-learn xgboost lightgbm matplotlib seaborn fastapi uvicorn streamlit
-```
-
-Install ONNX Runtime only if needed:
-
-```bash
-pip install onnxruntime
-```
-
-### 4. Prepare the data
-
-Download the required data from the sources above and place it in the location expected by the implemented pipeline. Do not assume a folder name until the repository defines it. Keep large/raw data files out of Git unless licensing and repository policy permit them.
-
-### 5. Run the API and dashboard
-
-Example API command (requires an `app/main.py` module or equivalent):
-
-```bash
-uvicorn app.main:app --reload
-```
-
-API documentation, if enabled, is usually available at:
-
-```text
-http://127.0.0.1:8000/docs
-```
-
-Example dashboard command (requires `dashboard.py` or equivalent):
-
-```bash
-streamlit run dashboard.py
-```
-
-These commands must be adjusted to match the actual files in the repository.
-
-## Suggested Project Structure
-
-This is a suggested layout, not a claim about the current repository files.
+This is a proposed structure, not a description of files already implemented.
 
 ```text
 miniproject_aviationanalysis/
 ├── data/
-│   ├── raw/                  # Downloaded source data (usually git-ignored)
-│   └── processed/            # Cleaned/merged data (usually git-ignored)
-├── notebooks/                # EDA and experiments
+│   ├── raw/                  # Downloaded data; normally git-ignored
+│   └── processed/            # Cleaned/merged data; normally git-ignored
+├── notebooks/                # Planned EDA and experiments
 ├── src/
-│   ├── data/                 # Loading, cleaning, joining
-│   ├── features/             # Feature engineering
-│   ├── models/               # Training and evaluation
-│   └── inference/             # Shared prediction pipeline
-├── app/
-│   └── main.py               # FastAPI entry point (suggested)
-├── dashboard.py              # Streamlit entry point (suggested)
-├── models/                   # Saved model artifacts
-├── tests/
-├── requirements.txt
-├── .gitignore
+│   ├── data/                 # Planned loading and cleaning
+│   ├── features/             # Planned feature engineering
+│   ├── models/               # Planned training and evaluation
+│   └── inference/            # Planned shared prediction pipeline
+├── app/                      # Planned FastAPI service
+├── dashboard.py              # Planned Streamlit entry point
+├── models/                   # Future saved model artifacts
+├── tests/                    # Planned tests
+├── requirements.txt          # Add when dependencies are decided
 └── README.md
 ```
 
-## Evaluation
+## Target Users and Potential Use Cases
 
-| Task | Main metric | Supporting analysis |
-|---|---|---|
-| Delay-risk classification | ROC-AUC | Precision, recall, confusion matrix |
-| Delay-duration regression | MAE, RMSE | Residual/error analysis |
-| Inference performance | Local latency | Hardware and test conditions |
-| Data pipeline | Validation checks | Missingness, duplicates, join coverage, leakage checks |
-
-## Target Users and Use Cases
-
-### Primary users
+### Intended users
 - Airline dispatch and operations-control teams.
 - Airport operations and capacity-planning analysts.
 - Aviation analytics teams.
-
-### Secondary users
-- Travel-management companies.
-- Aviation software providers.
 - Researchers and students working on aviation analytics.
 
-### Example use cases
+### Potential use cases
 - Prioritize flights with higher predicted delay risk.
 - Explore how weather and congestion relate to delay patterns.
-- Estimate likely delay duration for operational planning.
-- Provide structured predictions to another dashboard or service.
+- Estimate possible delay duration for operational planning.
+- Provide structured predictions to another application or dashboard.
 
-## Limitations
+These are intended use cases, not validated outcomes.
 
-- The cited primary dataset is historical and U.S.-based; it does not provide current real-time flight conditions by itself.
-- Weather and airport traffic sources require compatible timestamps, airport identifiers, and appropriate usage rights.
-- Prediction quality depends on data quality, feature availability, validation strategy, and model performance.
-- The sub-50 ms inference target must be benchmarked; it is not guaranteed.
-- This is an academic decision-support prototype and must not be used as the sole basis for safety-critical aviation decisions.
+## Limitations and Open Questions
+
+- The primary dataset under consideration is historical and U.S.-based.
+- Weather and traffic data sources have not yet been finalized.
+- The precise delay target and prediction-time assumptions need to be confirmed.
+- Model performance is unknown until training and evaluation are completed.
+- The proposed sub-50 ms inference target is aspirational and must be benchmarked.
+- Live data, ONNX optimization, API deployment, and dashboard features are not yet confirmed as implemented.
+- This is intended as an academic decision-support prototype, not a safety-critical aviation system.
 
 ## Future Scope
 
+Potential future work, after the initial pipeline is validated:
 - Add newer multi-year flight records.
-- Integrate licensed or openly available live weather and aviation feeds.
+- Integrate appropriate live weather or aviation feeds where access and licensing permit.
 - Add explainability methods such as SHAP.
 - Investigate cascading/network delays with temporal or graph-based models.
-- Produce uncertainty intervals and scenario analysis.
-- Add alerting and operational recommendations with human review.
-- Containerize services and deploy them to a suitable cloud environment.
+- Produce uncertainty estimates and scenario analysis.
+- Add alerts and operational recommendations with human review.
+- Containerize services and consider cloud deployment.
 
 ## Team
 
 **Team 19 — Team Vortex**  
 **Institute:** B.Tech (CS AIML), GLA University, Mathura
 
-| Member | Role |
+| Member | Planned role |
 |---|---|
 | Shourya Bansal | Project Lead |
 | Shivam Khandelwal | ML/Data Lead |
@@ -369,4 +310,4 @@ miniproject_aviationanalysis/
 
 ---
 
-**Team Vortex | Project 131 | Predictive Aviation Analytics & Flight Delay Mitigation Engine**
+**Team Vortex | Project 131 | Planning-phase README — 9 October 2026**
